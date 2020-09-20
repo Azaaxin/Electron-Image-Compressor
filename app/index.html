@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- https://www.dropzonejs.com/  drag and drop lib-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'" />
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/dropzone.css">
+    <link rel="stylesheet" href="css/nouslider.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!--CSP Content.Security-Policy-->
+    <title>Image optimizer</title>
+
+</head>
+
+<body>
+    <div class="container center-align">
+        <div>
+            <h5 class="center-align">Drop an image to compress it for the web!</h5>
+        </div>
+        <form id="image-form">
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>Browse</span>
+                <input type="file" accept="image/png, image/jpeg, image/jpg," id="img" />
+              </div>
+    
+              <div class="file-path-wrapper">
+                <input
+                  type="text"
+                  class="file-path validate"
+                  placeholder="Drag and drop images"
+                  
+                  multiple
+                />
+              </div>
+            </div>
+                <input type="submit" value="Resize" class="waves-effect waves-light btn m-10" />
+            </form>
+        </div>
+        <div>
+            <h6 class="center-align"><b>Quality:</b> <em>Lower the quality, smaller the file size</em></h5>
+        </div>
+        <div class="m-30">
+            <div id="amount_slider"></div> 
+            <!-- amount-slider.noUiSlider.get() -->
+        </div>
+        
+        <div class="card output">
+            <div class="card-content">
+                Output Path: <span id="output-path"></span>
+            </div>
+        </div>
+        <script src="js/materialize.min.js"></script>
+        <script src="js/dropzone.js"></script>
+        <script src="js/nouslider.js"></script>
+        <script src="js/slider.js"></script>
+        <script>
+            const path = require('path')
+            const os = require('os')
+            const {ipcRenderer} = require('electron')
+
+            const form2 = document.getElementById('image-form')
+            
+            const img = document.getElementById('img')
+
+            //    console.log(document.getElementsByClassName("noUi-tooltip")[0].childNodes[0].text)
+
+            form2.addEventListener("submit", function (e) {
+                e.preventDefault();
+                // form2.submit();
+                let imgPath = img.files[0].path
+                let quality = amount_slider.noUiSlider.get()
+                
+                console.log(imgPath, quality)
+
+                ipcRenderer.send('image:minimize', {imgPath, quality})
+            });
+            
+            document.getElementById('output-path').innerText = path.join(os.homedir(), 'imageshrink')
+
+        
+        </script>
+</body>
+
+</html>

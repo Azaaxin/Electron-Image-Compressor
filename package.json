@@ -1,0 +1,22 @@
+{
+  "name": "image-opti",
+  "version": "1.0.0",
+  "description": "App to optimise images",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^10.1.2",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "imagemin": "^7.0.1",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-pngquant": "^9.0.1",
+    "slash": "^3.0.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "nodemon --exec electron ."
+  },
+  "author": "Ludvig Olausson",
+  "license": "MIT"
+}
